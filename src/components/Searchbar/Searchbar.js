@@ -35,7 +35,7 @@ const Searchbar = ({ onSubmit }) => {
           name="query"
           autocomplete="off"
           autoFocus
-          placeholder="Search move"
+          placeholder="Search movies"
         />
       </SearchForm>
     </Searchbox>
