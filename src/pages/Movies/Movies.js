@@ -17,12 +17,11 @@ export const Movies = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const userQuery = searchParams.get('query');
+  const userQuery = searchParams.get('query') ?? '';
 
   useEffect(() => {
-    if (userQuery) {
-      fetchData(userQuery);
-    }
+    if (userQuery === '') return;
+    fetchData(userQuery);
   }, [userQuery]);
 
   const fetchData = async query => {
@@ -33,7 +32,7 @@ export const Movies = () => {
 
       if (response.length === 0) {
         const message =
-          'Search Failure. There is no images for your query. Please enter other query.';
+          'Search Failure. There is no movies for your query. Please enter other query.';
         setError(message);
       }
 
@@ -54,6 +53,7 @@ export const Movies = () => {
     if (query.trim() === '') {
       const message = 'Field cannot be empty!';
       setError(message);
+      // console.log(query);
     }
   };
 

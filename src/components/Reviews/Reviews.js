@@ -13,6 +13,7 @@ import {
 
 const Reviews = () => {
   const [reviews, setReviews] = useState([]);
+  const [reviewLoad, setreviewLoad] = useState(false);
   const [error, setError] = useState(null);
 
   const { movieId } = useParams();
@@ -25,21 +26,24 @@ const Reviews = () => {
     try {
       const response = await API.getReview(id);
       setReviews(response);
+      setreviewLoad(true);
     } catch {
       const message = 'Oops, something went wrong ...';
       setError(message);
     }
   };
-  const message = 'We dont have any review for this movie';
+
+  if (reviews.length === 0 && reviewLoad) {
+    const message = 'We dont have any review for this movie';
+    return <Notification message={message} />;
+  }
 
   return (
-    <ReviewsList>
-      {reviews.length === 0 && <Notification message={message} />}
-
+    <>
       {error ? (
         <Notification message={error} />
       ) : (
-        <>
+        <ReviewsList>
           {reviews.map(({ id, author, content }) => {
             return (
               <ReviewItem key={id}>
@@ -48,9 +52,9 @@ const Reviews = () => {
               </ReviewItem>
             );
           })}
-        </>
+        </ReviewsList>
       )}
-    </ReviewsList>
+    </>
   );
 };
 

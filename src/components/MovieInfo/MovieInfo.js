@@ -89,5 +89,3 @@ MovieInfo.propTypes = {
     release_date: PropTypes.string.isRequired,
   }).isRequired,
 };
-
-// title, genres, overview, poster_path, vote_average, release_date;

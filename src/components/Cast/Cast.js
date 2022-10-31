@@ -15,6 +15,7 @@ import {
 
 const Cast = () => {
   const [casts, setCasts] = useState([]);
+  const [castLoad, setcastLoad] = useState(false);
   const [error, setError] = useState(null);
 
   const { movieId } = useParams();
@@ -27,21 +28,24 @@ const Cast = () => {
     try {
       const response = await API.getMovieCast(id);
       setCasts(response);
+      setcastLoad(true);
     } catch {
       const message = 'Oops, something went wrong ...';
       setError(message);
     }
   };
-  const message = 'We dont have any information about cast of this movie';
+
+  if (casts.length === 0 && castLoad) {
+    const message = 'We dont have any information about cast of this movie';
+    return <Notification message={message} />;
+  }
 
   return (
-    <CastList>
-      {casts.length === 0 && <Notification message={message} />}
-
+    <>
       {error ? (
         <Notification message={error} />
       ) : (
-        <>
+        <CastList>
           {casts.map(({ id, character, name, profile_path }) => {
             return (
               <CastItem key={id}>
@@ -69,9 +73,9 @@ const Cast = () => {
               </CastItem>
             );
           })}
-        </>
+        </CastList>
       )}
-    </CastList>
+    </>
   );
 };
 
